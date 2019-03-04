@@ -24,29 +24,46 @@
         return `${days} days, ${hours < 10 ? '0' + hours: hours}:${minutes < 10 ? '0' + minutes : minutes}:${secondsLeft < 10 ? '0' + secondsLeft : secondsLeft} left`
     }
 
-    function renderEvent(event) {
-        const container = document.createElement('div')
-        container.classList += 'event_container'
-        const title = document.createElement('h4')
+    function renderEventTitle(event) {
+        const title = document.createElement('p')
         title.textContent = event.name
-        title.style.cssFloat = 'left'
-        const date = document.createElement('h4')
+        title.classList += 'title'
+        return title
+    }
+
+    function renderEventDate(event) {
+        const date = document.createElement('p')
         date.textContent = event.date
-        date.style.cssFloat = 'right'
+        date.classList += 'date'
+        return date
+    }
+
+    function renderEventDescription(event) {
         const desc = document.createElement('p')
         desc.textContent = event.description
-        desc.style.clear = 'both'
+        desc.classList += 'description'
+        return desc
+    }
+
+    function renderEventCountdown(event) {
         const eventUnix = Date.parse(event.date)
-        const countdown = document.createElement('h1')
+        const countdown = document.createElement('p')
+        countdown.classList += 'countdown'
         countdown.textContent = eventUnix - Date.now()
         setInterval(() => {
             const diff = eventUnix - Date.now()
             countdown.textContent = millisecondsToHumanReadable(diff)
         }, 200)
-        container.appendChild(title)
-        container.appendChild(date)
-        container.appendChild(desc)
-        container.appendChild(countdown)
+        return countdown
+    }
+
+    function renderEvent(event) {
+        const container = document.createElement('div')
+        container.classList += 'event_container'
+        container.appendChild(renderEventTitle(event))
+        container.appendChild(renderEventDate(event))
+        container.appendChild(renderEventDescription(event))
+        container.appendChild(renderEventCountdown(event))
         window.document.body.appendChild(container)
     }
 
