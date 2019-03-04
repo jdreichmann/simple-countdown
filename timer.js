@@ -1,11 +1,11 @@
 (function(window) {
 
     function fetchEvents() {
-        const events = [
-            {name: "EH19", date: "2019-04-19T10:00:00.000+01:00", description: "Wien c:"}
-        ];
         return new Promise((fullfill, reject) => {
-            fullfill(events)
+            fetch('./events.json')
+                .then(answer => answer.json())
+                .then(events => fullfill(events))
+                .catch(err => reject(err))
         })
     }
 
