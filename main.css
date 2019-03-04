@@ -1,0 +1,39 @@
+html, body {
+    width: 100%;
+    background-color: #222222;
+    color: #FFFFFF;
+}
+
+.event_container {
+    width: 50%;
+    padding: 20px;
+    margin: 10px auto;
+    border-radius: 20px;
+    background-color: #333333;
+}
+
+.event_container p {
+    margin: 0;
+    padding: 0;
+}
+
+.event_container .title {
+    font-size: x-large;
+    float: left;
+}
+
+.event_container .date {
+    font-size: x-large;
+    float: right;
+}
+
+.event_container .description {
+    clear: both;
+}
+.event_container .countdown {
+    font-size: 300%;
+    font-weight: bold;
+    text-align: center;
+    margin: 5px 0px;
+    color: #ff33cc;
+}
