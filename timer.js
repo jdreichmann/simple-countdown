@@ -1,5 +1,9 @@
 (function(window) {
 
+    window.events = {
+        showPastEvents: false
+    }
+
     function fetchEvents() {
         return new Promise((fullfill, reject) => {
             fetch('./events.json')
@@ -69,10 +73,14 @@
 
     window.onload = () => {
         fetchEvents().then(events => {
+            const now = Date.now()
             events
+                .filter(event => !(window.events.showPastEvents && (Date.parse(event.date) - now < 0)))
                 .sort((a, b) => Date.parse(a.date) - Date.parse(b.date))
                 .forEach(event => renderEvent(event))
         })
     }
 
 })(window);
+
+//window.events.showPastEvents = true
