@@ -54,9 +54,14 @@
         const countdown = document.createElement('p')
         countdown.classList += 'countdown'
         countdown.textContent = eventUnix - Date.now()
-        setInterval(() => {
+        const refresh = setInterval(() => {
             const diff = eventUnix - Date.now()
-            countdown.textContent = millisecondsToHumanReadable(diff)
+            if ((window.events.showPastEvents && (diff < 0))) {
+                countdown.parentElement.style.display = 'none'
+            } else {
+                countdown.parentElement.style.display = 'block'
+                countdown.textContent = millisecondsToHumanReadable(diff)
+            }
         }, 200)
         return countdown
     }
@@ -71,16 +76,22 @@
         window.document.body.appendChild(container)
     }
 
+    function bindLogic() {
+        const checkbox = document.querySelector('#showPastEvents')
+        checkbox.addEventListener('change', event => {
+            window.events.showPastEvents = !checkbox.checked
+        })
+        checkbox.dispatchEvent(new Event('change'))
+    }
+
     window.onload = () => {
         fetchEvents().then(events => {
             const now = Date.now()
             events
-                .filter(event => !(window.events.showPastEvents && (Date.parse(event.date) - now < 0)))
                 .sort((a, b) => Date.parse(a.date) - Date.parse(b.date))
                 .forEach(event => renderEvent(event))
         })
+        bindLogic()
     }
 
 })(window);
-
-//window.events.showPastEvents = true
